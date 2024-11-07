@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>mobile</title>
+    <style>
+        body {
+          background-image: url('5.jpg');
+          background-repeat: no-repeat;
+          background-attachment: fixed;
+          background-size: 100% 100%;
+        }
+        </style>
+        
+   <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            color: #ffffff; 
+            transition: background-color 0.5s; 
+            text-align: center; 
+            background-color: #bd14a6ce; /* Default background color */
+        }
+        
+        header { 
+            padding: 20px; 
+            animation: fadeIn 2s, colorChange 4s infinite; 
+        }
+        nav { background: #333; padding: 10px; }
+        nav a { color: white; margin: 0 15px; text-decoration: none; transition: color 0.3s; }
+        nav a:hover { color: #ffcc00; }
+        section { padding: 20px; display: none; animation: fadeInUp 0.5s forwards; }
+        footer { text-align: center; padding: 20px; background: #333; }
+        
+        .loadout-image, .multiplayer-image, .battle-image {
+            max-width: 100%;
+            height: auto;
+            margin: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        .news-item {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes colorChange {
+            0% { color: #ffffff; }
+            50% { color: #ffcc00; }
+            100% { color: #ffffff; }
+        }
+
+        .color-button, .calculator button, .form-container button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ffcc00;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .color-button:hover, .calculator button:hover, .form-container button:hover {
+            background-color: #ffd700;
+            transform: scale(1.05);
+        }
+
+        .calculator, .form-container {
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #333;
+            border-radius: 5px;
+            width: 300px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
+        }
+
+        .calculator input, .form-container input {
+            width: 80%;
+            padding: 10px;
+            margin: 5px;
+            font-size: 16px;
+        }
+
+        #result {
+            margin-top: 10px; 
+            font-size: 18px; 
+            color: #ffcc00; 
+            text-align: left; 
+            opacity: 0;
+            animation: fadeIn 0.5s forwards; 
+        }
+    </style>
+    <script>
+        const colors = ['#ff5733', '#33ff57', '#3357ff', '#ffd700', '#ff33a8'];
+        let currentIndex = 0;
+
+        let lastResult = null;
+        let lastOperation = null;
+
+        const headerTexts = [
+            "Welcome to Mobile legend",
+            "Gear Up for Battle!",
+            "Join the Fight Now!",
+            "Ready to Dominate the Field?",
+            "Unleash Your Inner Warrior!"
+        ];
+
+        function changeBackgroundColor() {
+            document.body.style.backgroundColor = colors[currentIndex];
+            currentIndex = (currentIndex + 1) % colors.length;
+        }
+
+        function showSection(sectionId) {
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.style.display = section.id === sectionId ? 'block' : 'none';
+                if (section.id === sectionId) {
+                    section.style.animation = 'fadeInUp 0.5s forwards';
+                } else {
+                    section.style.animation = 'none';
+                }
+            });
+        }
+
+        function changeHeaderText() {
+            const header = document.getElementById('header-title');
+            const randomIndex = Math.floor(Math.random() * headerTexts.length);
+            header.textContent = headerTexts[randomIndex];
+        }
+
+        function calculate(operation) {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+
+            if (isNaN(num1) || isNaN(num2)) {
+                alert("Please enter valid numbers.");
+                return;
+            }
+
+            switch (operation) {
+                case 'add':
+                    lastResult = num1 + num2;
+                    lastOperation = 'add';
+                    break;
+                case 'subtract':
+                    lastResult = num1 - num2;
+                    lastOperation = 'subtract';
+                    break;
+                case 'multiply':
+                    lastResult = num1 * num2;
+                    lastOperation = 'multiply';
+                    break;
+                case 'divide':
+                    lastResult = num2 !== 0 ? num1 / num2 : "Cannot divide by zero";
+                    lastOperation = 'divide';
+                    break;
+                default:
+                    lastResult = "Invalid operation";
+            }
+
+            document.getElementById('result')
+            document.getElementById('result').style.opacity = 1; // Make result visible
+        }
+
+        function validateLoginForm() {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Basic email regex
+
+            if (!email || !password) {
+                alert("Both fields must be filled out.");
+                return false;
+            }
+
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
+
+            alert("Login successful!");
+            return true;
+        }
+
+        // Show the main section by default
+        window.onload = function() {
+            showSection('home');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1 id="header-title">Welcome to MOBILE LEGEND</h1>
+        <button class="color-button" onclick="changeHeaderText()">Change Header Text</button>
+    </header>
+    <nav>
+        <a href="#" onclick="showSection('home')">Home</a>
+        <a href="#" onclick="showSection('loadouts')">Mlbb Heros</a>
+        <a href="#" onclick="showSection('login')">Login</a> <!-- Link to login section -->
+    </nav>
+
+    <section id="home">
+        <h2>About the Game</h2>
+        <p>𝑴𝒐𝒃𝒊𝒍𝒆 𝑳𝒆𝒈𝒆𝒏𝒅𝒔: 𝑩𝒂𝒏𝒈 𝑩𝒂𝒏𝒈 𝒊𝒔 𝒂 𝒎𝒖𝒍𝒕𝒊𝒑𝒍𝒂𝒚𝒆𝒓 𝒐𝒏𝒍𝒊𝒏𝒆 𝒃𝒂𝒕𝒕𝒍𝒆 𝒂𝒓𝒆𝒏𝒂 (𝑴𝑶𝑩𝑨) 𝒈𝒂𝒎𝒆 𝒅𝒆𝒔𝒊𝒈𝒏𝒆𝒅 𝒇𝒐𝒓 𝒎𝒐𝒃𝒊𝒍𝒆 𝒑𝒉𝒐𝒏𝒆𝒔. 𝑻𝒉𝒆 𝒈𝒂𝒎𝒆 𝒊𝒔 𝒇𝒓𝒆𝒆-𝒕𝒐-𝒑𝒍𝒂𝒚 𝒂𝒏𝒅 𝒊𝒔 𝒐𝒏𝒍𝒚 𝒎𝒐𝒏𝒆𝒕𝒊𝒛𝒆𝒅 𝒕𝒉𝒓𝒐𝒖𝒈𝒉 𝒊𝒏-𝒈𝒂𝒎𝒆 𝒑𝒖𝒓𝒄𝒉𝒂𝒔𝒆𝒔 𝒍𝒊𝒌𝒆 𝒄𝒉𝒂𝒓𝒂𝒄𝒕𝒆𝒓𝒔 𝒂𝒏𝒅 𝒔𝒌𝒊𝒏𝒔. 𝑬𝒂𝒄𝒉 𝒑𝒍𝒂𝒚𝒆𝒓 𝒄𝒂𝒏 𝒄𝒐𝒏𝒕𝒓𝒐𝒍 𝒂 𝒔𝒆𝒍𝒆𝒄𝒕𝒂𝒃𝒍𝒆 𝒄𝒉𝒂𝒓𝒂𝒄𝒕𝒆𝒓, 𝒄𝒂𝒍𝒍𝒆𝒅 𝒂 𝑯𝒆𝒓𝒐, 𝒘𝒊𝒕𝒉 𝒖𝒏𝒊𝒒𝒖𝒆 𝒂𝒃𝒊𝒍𝒊𝒕𝒊𝒆𝒔 𝒂𝒏𝒅 𝒕𝒓𝒂𝒊𝒕𝒔. </p>
+        <div id="news-container">
+
+        <div>
+            <button class="color-button" onclick="changeBackgroundColor()">Change Background Color</button>
+        </div>
+    </section>
+
+    <section id="loadouts">
+        <h2>pick you hero</h2>
+        <img src="6.jpg" alt="Custom Loadout" class="loadout-image">
+        <img src="5.jpg" alt="Custom Loadout" class="loadout-image">
+        <img src="1.jpg" alt="Custom Loadout" class="loadout-image">
+        <img src="2.jpg" alt="Custom Loadout" class="loadout-image">
+        <p>Cute Heros of Mlbb</p>
+        <button onclick="window.history.back()">Back</button>
+    </section>
+
+    <section id="login">
+        <h2>User Login</h2>
+        <div class="form-container">
+            <input type="text" id="login-email" placeholder="Email" required>
+            <input type="password" id="login-password" placeholder="Password" required>
+            <button class="color-button" onclick="validateLoginForm()">Login</button>
+        </div>
+    </section>
+
+    <div class="calculator">
+        <h3>Simple Calculator</h3>
+        <input type="number" id="num1" placeholder="First Number">
+        <input type="number" id="num2" placeholder="Second Number">
+        <div>
+            <button onclick="calculate('add')">+</button>
+            <button onclick="calculate('subtract')">-</button>
+            <button onclick="calculate('multiply')">*</button>
+            <button onclick="calculate('divide')">/</button>
+        </div>
+        <div id="result" style="margin-top: 10px;"></div> <!-- Result Display -->
+    </div>
+    
+    <footer>
+        <p>&copy; 2024 Mobile legend. All rights reserved.</p>
+    </footer>
+</body>
+</html>
